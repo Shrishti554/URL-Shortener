@@ -1,0 +1,15 @@
+{
+  "cookiecutter": {
+    "app_name": "theme",
+    "_copy_without_render": [
+      "templates/base.html"
+    ],
+    "_template": "C:\\Users\\ASUS\\django\\.venv\\Lib\\site-packages\\tailwind",
+    "_output_dir": "C:\\Users\\ASUS\\django\\firstProject",
+    "_repo_dir": "C:\\Users\\ASUS\\django\\.venv\\Lib\\site-packages\\tailwind\\app_template_v4",
+    "_checkout": null
+  },
+  "_cookiecutter": {
+    "app_name": "theme"
+  }
+}
