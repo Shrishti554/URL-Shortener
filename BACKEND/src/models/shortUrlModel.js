@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const shortUrlSchema = new mongoose.Schema({
+const UrlSchema = new mongoose.Schema({
 
     full_url: {
         type:String,
@@ -26,6 +26,11 @@ const shortUrlSchema = new mongoose.Schema({
     },
 });
 
-const shortUrl = mongoose.model("shortUrl", shortUrlSchema);
+// const shortUrl = mongoose.model("shortUrl", shortUrlSchema);
 
-export default shortUrl;
+// export default shortUrl;
+const UrlModel = mongoose.model("Url", UrlSchema);
+export default UrlModel;
+
+
+// export default UrlModel;
