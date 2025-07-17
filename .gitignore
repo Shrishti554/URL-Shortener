@@ -2,3 +2,4 @@
 ".env" 
 ".vscode/" 
 "__pycache__/" 
+"app_template_v4.json/"
