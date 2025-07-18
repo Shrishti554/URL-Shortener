@@ -1,11 +1,13 @@
-import { useState } from 'react'
-import axios from 'axios'
+import { useState } from 'react';
+import { createShortUrl } from '../api/shortUrl.api';
+
 const UrlForm = () => {
   const [url, setUrl] = useState('')
   const [shortUrl, setShortUrl] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [copied, setCopied] = useState(false)
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -27,10 +29,11 @@ const UrlForm = () => {
     setError('')
 
     try {
-      const { data } = await axios.post("http://localhost:3000/api/create", { url })
-      setShortUrl(data)
-    } catch {
-      setError('Failed to shorten URL. Please try again.')
+      const shortUrl = await createShortUrl(url)
+      setShortUrl(shortUrl)
+    } catch (error) {
+      // Use the enhanced error message from our axios interceptor
+      setError(error.message || 'Failed to shorten URL. Please try again.')
     } finally {
       setIsLoading(false)
     }

@@ -3,6 +3,7 @@ import {nanoid} from "nanoid";
 import dotenv from "dotenv";
 dotenv.config("./.env");
 import shortUrl from "./src/routes/shortUrl.routes.js";
+import auth from "./src/routes/auth.routes.js";
 import connectDB from "./src/config/mongo.config.js";
 import { redirectFromShortUrl } from "./src/controller/shortUrl.controller.js"
 import { errorHandler } from "./src/utils/errorHandler.js";
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
 //POST-Create short url
+app.use("/api/auth", auth.routes)
 app.use("/api/create", shortUrl)
 
 app.get("/:id",redirectFromShortUrl)
