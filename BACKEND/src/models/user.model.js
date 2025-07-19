@@ -18,16 +18,10 @@ const UserSchema = new mongoose.Schema({
    avatar:{
     type:String,
     required:false,
-   default :function() {
-    return getGravatarUrl(this.email);
-   }
+    default :"https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
    }
 });
 
-function getGravatarUrl(email) {
-    const hash = crypto.createHash('md5').update(email.trim().toLowerCase()).digest('hex');
-    return `https://www.gravatar.com/avatar/${hash}`;
-}
 
 const User = mongoose.model("User", UserSchema);
 export default User;

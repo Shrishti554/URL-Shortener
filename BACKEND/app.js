@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
 //POST-Create short url
-app.use("/api/auth", auth.routes)
+app.use("/api/auth", auth)
 app.use("/api/create", shortUrl)
 
 app.get("/:id",redirectFromShortUrl)

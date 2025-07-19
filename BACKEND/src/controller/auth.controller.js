@@ -1,13 +1,27 @@
-import wrapAsync from "../utils/tryCatchWrapper";
-import { registerUser } from "../services/auth.services.js";
+import wrapAsync from "../utils/tryCatchWrapper.js";
+import { registerUser , loginUser } from "../services/auth.services.js";
+import { cookieOptions } from "../config/config.js";
 
 
 export const register_user = wrapAsync(async (req, res) => {
     const { email, name, password } = req.body;
     const token = await registerUser(email, name, password);
-    res.status(201).json({ token });
+    req.user = user;
+    res.cookie("accessToken", token,cookieOptions);
+    res.status(200).json({message:"Login Successful"});
   });
   
   export const login_user = wrapAsync(async (req, res) => {
-    res.send("Login");
+   const { email, password } = req.body;
+   const token = await loginUser(email, password);
+    req.user = user;
+   res.cookie("accessToken", token,cookieOptions);
+   res.status(200).json({message:"Login Successful"});
   });
+
+  export const creatCustomShortUrl = wrapAsync(async (req, res) => {
+    const { url, slug } = req.body;
+    const shortUrl = await createShortUrlWithUser(url, req.user._id, customUrl);
+    res.status(200).json({shortUrl:process.env.APP_URL + shortUrl});
+   });
+  
