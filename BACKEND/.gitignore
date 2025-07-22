@@ -1,1 +1,2 @@
 ".env" 
+-e ".env\nnode_modules/" 
