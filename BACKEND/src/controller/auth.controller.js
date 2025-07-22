@@ -13,15 +13,15 @@ export const register_user = wrapAsync(async (req, res) => {
   
   export const login_user = wrapAsync(async (req, res) => {
    const { email, password } = req.body;
-   const token = await loginUser(email, password);
+   const {token,user} = await loginUser(email, password);
     req.user = user;
    res.cookie("accessToken", token,cookieOptions);
    res.status(200).json({message:"Login Successful"});
   });
 
-  export const creatCustomShortUrl = wrapAsync(async (req, res) => {
-    const { url, slug } = req.body;
-    const shortUrl = await createShortUrlWithUser(url, req.user._id, customUrl);
-    res.status(200).json({shortUrl:process.env.APP_URL + shortUrl});
-   });
+  // export const creatCustomShortUrl = wrapAsync(async (req, res) => {
+  //   const { url, slug } = req.body;
+  //   const shortUrl = await createShortUrlWithUser(url, req.user._id, customUrl);
+  //   res.status(200).json({shortUrl:process.env.APP_URL + shortUrl});
+  //  });
   
