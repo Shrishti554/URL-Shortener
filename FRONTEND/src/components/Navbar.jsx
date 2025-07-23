@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
+import { logout, selectIsAuthenticated, selectUser } from '../store/slices/authSlice'
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [userName, setUserName] = useState('John Doe') // This would come from your auth context/state
+  const dispatch = useAppDispatch()
+  const isAuthenticated = useAppSelector(selectIsAuthenticated)
+  const user = useAppSelector(selectUser)
 
   const handleLogin = () => {
     // This would redirect to login page or open login modal
@@ -10,10 +12,7 @@ const Navbar = () => {
   }
 
   const handleLogout = () => {
-    // This would handle logout logic
-    setIsLoggedIn(false)
-    localStorage.removeItem('token')
-    console.log('User logged out')
+    dispatch(logout())
   }
 
   return (
@@ -31,11 +30,11 @@ const Navbar = () => {
 
           {/* Right side - User info and login/logout */}
           <div className="flex items-center space-x-4">
-            {isLoggedIn ? (
+            {isAuthenticated ? (
               <>
                 {/* User name */}
                 <span className="text-gray-700 font-medium">
-                  Welcome, {userName}
+                  Welcome, {user?.name || 'User'}
                 </span>
                 
                 {/* Logout button */}

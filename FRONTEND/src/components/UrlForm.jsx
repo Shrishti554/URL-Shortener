@@ -1,12 +1,24 @@
 import { useState } from 'react';
-import { createShortUrl } from '../api/shortUrl.api';
+import { useAppDispatch, useAppSelector } from '../store/hooks'
+import {
+  createShortUrlAsync,
+  selectShortUrl,
+  selectUrlLoading,
+  selectUrlError,
+  selectCopied,
+  setCopied,
+  clearUrl,
+  clearError
+} from '../store/slices/urlSlice'
 
 const UrlForm = () => {
+  const dispatch = useAppDispatch()
+  const shortUrl = useAppSelector(selectShortUrl)
+  const isLoading = useAppSelector(selectUrlLoading)
+  const error = useAppSelector(selectUrlError)
+  const copied = useAppSelector(selectCopied)
+
   const [url, setUrl] = useState('')
-  const [shortUrl, setShortUrl] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
-  const [copied, setCopied] = useState(false)
   
 
   const handleSubmit = async (e) => {

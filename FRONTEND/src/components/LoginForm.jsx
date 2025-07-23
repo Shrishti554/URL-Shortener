@@ -1,13 +1,17 @@
 import { useState } from 'react'
-import { loginUser } from '../api/user.api';
+import { useAppDispatch, useAppSelector } from '../store/hooks'
+import { loginUserAsync, selectAuthLoading, selectAuthError, clearError } from '../store/slices/authSlice'
 
 const LoginForm = ({state}) => {
+  const dispatch = useAppDispatch()
+  const isLoading = useAppSelector(selectAuthLoading)
+  const error = useAppSelector(selectAuthError)
+
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   })
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -21,35 +25,31 @@ const LoginForm = ({state}) => {
     e.preventDefault()
 
     if (!formData.email || !formData.password) {
-      setError('Please fill in all fields')
       return
     }
 
     // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(formData.email)) {
-      setError('Please enter a valid email address')
       return
     }
 
-    setIsLoading(true)
-    setError('')
+    // Clear any previous errors
+    dispatch(clearError())
 
     try {
-      const response = await loginUser(formData.email, formData.password)
-      console.log('Login successful:', response)
+      const result = await dispatch(loginUserAsync({
+        email: formData.email,
+        password: formData.password
+      }))
 
-      // Store token if needed
-      if (response.token) {
-        localStorage.setItem('token', response.token)
+      if (loginUserAsync.fulfilled.match(result)) {
+        alert('Login successful!')
+        // Reset form
+        setFormData({ email: '', password: '' })
       }
-
-      alert('Login successful!')
-
     } catch (error) {
-      setError(error.message || 'Login failed. Please try again.')
-    } finally {
-      setIsLoading(false)
+      console.error('Login error:', error)
     }
   }
 
